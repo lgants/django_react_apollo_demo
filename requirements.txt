@@ -1,0 +1,11 @@
+coverage==4.4.2
+Django==1.11.7
+Faker==0.7.3
+mixer==5.6.6
+py==1.5.2
+pytest==3.2.5
+pytest-cov==2.5.1
+pytest-django==3.1.2
+python-dateutil==2.6.1
+pytz==2017.3
+six==1.11.0
