@@ -12,3 +12,6 @@ PASSWORD_HASHERS = (
 )
 
 DEFAULT_FILE_STORAGE = 'inmemorystorage.InMemoryStorage'
+
+
+# Execute 'pytest --cov-report html --cov .' from ./backend folder and then execute 'open htmlcov/index.html' to see the coverage report
