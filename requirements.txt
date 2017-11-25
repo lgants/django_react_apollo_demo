@@ -2,6 +2,9 @@ appnope==0.1.0
 coverage==4.4.2
 decorator==4.1.2
 Django==1.11.7
+django-cors-headers==2.1.0
+djangorestframework==3.7.3
+djangorestframework-jwt==1.11.0
 Faker==0.7.3
 graphene==2.0.1
 graphene-django==2.0.0
@@ -20,6 +23,7 @@ prompt-toolkit==1.0.15
 ptyprocess==0.5.2
 py==1.5.2
 Pygments==2.2.0
+PyJWT==1.5.3
 pytest==3.2.5
 pytest-cov==2.5.1
 pytest-django==3.1.2
