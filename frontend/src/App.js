@@ -5,23 +5,32 @@ import DetailView from './views/DetailView'
 import ListView from './views/ListView'
 import LoginView from './views/LoginView'
 import LogoutView from './views/LogoutView'
-import {
-  ApolloProvider,
-  ApolloClient,
-  createBatchingNetworkInterface,
-} from 'react-apollo'
+import { ApolloProvider } from 'react-apollo';
+import { ApolloClient } from 'apollo-client';
+import { HttpLink } from 'apollo-link-http';
+import { InMemoryCache } from 'apollo-cache-inmemory';
 
-const networkInterface = createBatchingNetworkInterface({
-  uri: 'http://localhost:8000/gql',
-  batchInterval: 10,
-  opts: {
-    credentials: 'same-origin',
-  },
-})
 
 const client = new ApolloClient({
-  networkInterface: networkInterface,
-})
+  link: new HttpLink({
+    uri: 'http://localhost:8000/graphql',
+    credentials: 'same-origin',
+  }),
+  cache: new InMemoryCache()
+});
+
+
+// const networkInterface = createBatchingNetworkInterface({
+//   uri: 'http://localhost:8000/gql',
+//   batchInterval: 10,
+//   opts: {
+//     credentials: 'same-origin',
+//   },
+// })
+//
+// const client = new ApolloClient({
+//   networkInterface: networkInterface,
+// })
 
 class App extends Component {
   render() {

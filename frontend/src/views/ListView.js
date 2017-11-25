@@ -16,7 +16,7 @@ class ListView extends React.Component {
   render() {
     let { data } = this.props
     if (data.loading || !data.allMessages) {
-      return <div>Loading...</div>
+      return (<div>Loading...</div>)
     }
     return (
       <div>
