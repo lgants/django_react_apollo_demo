@@ -7,15 +7,27 @@ import LoginView from './views/LoginView'
 import LogoutView from './views/LogoutView'
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
-import { HttpLink } from 'apollo-link-http';
+import { setContext } from 'apollo-link-context';
+import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
+const httpLink = createHttpLink({
+  uri: 'http://localhost:8000/graphql',
+  credentials: 'same-origin',
+});
+
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('token');
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : null,
+    }
+  }
+});
 
 const client = new ApolloClient({
-  link: new HttpLink({
-    uri: 'http://localhost:8000/graphql',
-    credentials: 'same-origin',
-  }),
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache()
 });
 

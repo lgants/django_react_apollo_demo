@@ -1,31 +1,39 @@
 import graphene
 from graphene_django.types import DjangoObjectType
 from graphql_relay.node.node import from_global_id
+from graphene_django.filter.fields import DjangoFilterConnectionField
 from . import models
 import json
 
 class MessageType(DjangoObjectType):
     class Meta:
         model = models.Message
+        filter_fields = {'message': ['icontains']}
         interfaces = (graphene.Node, )
+
+class UserInput(graphene.InputObjectType):
+    id = graphene.ID(required=False)
 
 
 class Query(graphene.ObjectType):
-    message = graphene.Field(MessageType, id=graphene.ID())
+    id = graphene.Field(MessageType, input=UserInput())
 
-    def resolve_message(self, args):
-        rid = from_global_id(args.get('id'))
+    def resolve_message(self, info, input):
+        id = input.get('id')
+
+        # rid = from_global_id(args.get('id'))
         # rid is a tuple: ('MessageType', '1')
-        return models.Message.objects.get(pk=rid[1])
+        # return models.Message.objects.get(pk=rid[1])
+        return Message.objects.get(pk=id)
 
-    all_messages = graphene.List(MessageType)
+    all_messages = DjangoFilterConnectionField(MessageType)
 
-    def resolve_all_messages(self, args):
+    def resolve_all_messages(self, *args):
         return models.Message.objects.all()
 
 
 class CreateMessageMutation(graphene.Mutation):
-    class Input:
+    class Arguments:
         message = graphene.String()
 
     status = graphene.Int()
